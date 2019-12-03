@@ -13,7 +13,8 @@ class AuthorizeRequest extends PurchaseRequest
 
     public function getData()
     {
-        $data['Type'] = $this->getType();
+        $data = parent::getData();
+        $data['Type'] = 'PreAuth';
         $data['OrderId'] = $this->getTransactionId();
         
         return $data;

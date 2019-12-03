@@ -17,7 +17,8 @@ class CreateCardRequest extends PurchaseRequest
 
         $data['Type'] = 'MerchantSafe';
         $data['Number'] = $this->getCard()->getNumber();
-        $data['Expires'] = $this->getCard()->getExpiryMonth() . $this->getCard()->getExpiryYear();
+        $data['Expires'] = $this->getCard()->getExpiryDate('my');
+        $data['Cvv2Val'] = $this->getCard()->getCvv();
         $data['Extra'] = [
             'MERCHANTSAFE'    => 'ADDCARD',
         ];

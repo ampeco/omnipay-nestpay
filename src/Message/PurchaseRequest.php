@@ -47,10 +47,15 @@ class PurchaseRequest extends AbstractRequest
 
     public function getData()
     {
-        $this->validate('amount', 'card');
-        $this->getCard()->validate();
-        
-        $data['Email'] = $this->getCard()->getEmail();
+        $this->validate('amount');
+        $card = $this->getCard();
+        if ($card instanceof CreditCard) {
+            $card->validate();
+        }
+
+        if ($card) {
+            $data['Email'] = $this->getCard()->getEmail();
+        }
         $data['OrderId'] = $this->getTransactionId();
         $data['GroupId'] = '';
         $data['TransId'] = '';
@@ -60,9 +65,14 @@ class PurchaseRequest extends AbstractRequest
         $data['Installment'] = $this->getInstallment();
         
         $data['Total'] = $this->getAmount();
-        $data['Number'] = $this->getCard()->getNumber();
-        $data['Expires'] = $this->getCard()->getExpiryDate('my');
-        $data["Cvv2Val"] = $this->getCard()->getCvv();
+        if ($this->getSafeKey()) {
+            $data['Number'] = $this->getSafeKey();
+        } else {
+
+            $data['Number'] = $this->getCard()->getNumber();
+            $data['Expires'] = $this->getCard()->getExpiryDate('my');
+            $data["Cvv2Val"] = $this->getCard()->getCvv();
+        }
         $data["IPAddress"] = $this->getClientIp();
         
         return $data;
@@ -91,7 +101,7 @@ class PurchaseRequest extends AbstractRequest
         }
         
         // Build api post url
-        $this->endpoint = $this->getTestMode() == TRUE ? $this->endpoints["test"] : $protocol . $this->endpoints[$gateway] . $this->url["purchase"];
+        $this->endpoint = $this->getTestMode() == TRUE ? $this->endpoints[$gateway == 'halkbank'?'asseco':"test"] : $protocol . $this->endpoints[$gateway] . $this->url["purchase"];
         
         $document = new DOMDocument('1.0', 'UTF-8');
         $root = $document->createElement('CC5Request');
@@ -183,7 +193,7 @@ class PurchaseRequest extends AbstractRequest
         
         // Post to NestPay
         $headers = array(
-            'Content-Type' => 'application/x-www-form-urlencoded'
+            'Content-Type' => 'application/xml'
         );
         $httpResponse = $this->httpClient->request('POST', $this->endpoint, $headers, $document->saveXML());
         return $this->response = new Response($this, $httpResponse->getBody()->getContents());

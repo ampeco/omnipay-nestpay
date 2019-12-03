@@ -1,10 +1,10 @@
 <?php
 namespace Omnipay\NestPay\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RequestInterface;
-use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\RedirectResponseInterface;
+use Omnipay\Common\Message\RequestInterface;
 
 /**
  * NestPay Response
@@ -65,7 +65,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
      */
     public function getCode()
     {
-        return $this->isSuccessful() ? $this->data["AuthCode"] : parent::getCode();
+        return $this->isSuccessful() ? $this->data["AuthCode"] : @$this->data['Extra']['ERRORCODE'];
     }
 
     /**
@@ -76,6 +76,10 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     public function getTransactionReference()
     {
         return $this->isSuccessful() ? $this->data["TransId"] : '';
+    }
+
+    public function getMerchantSafeKey(){
+        return (string)$this->data['Extra']->MERCHANTSAFEKEY;
     }
 
     /**
@@ -92,7 +96,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
             else
                 return $this->data["Response"];
         }
-        return $this->data["ErrMsg"];
+        return $this->getError();
     }
 
     /**
@@ -102,7 +106,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
      */
     public function getError()
     {
-        return $this->data["ErrMsg"];
+        return isset($this->data["ErrMsg"]) ? $this->data["ErrMsg"] : @$this->data['Extra']->ERRORMESSAGE;
     }
 
     /**
