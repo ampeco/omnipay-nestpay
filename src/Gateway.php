@@ -77,6 +77,47 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\NestPay\Message\StatusRequest', $parameters);
     }
 
+    public function createCard(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\NestPay\Message\CreateCardRequest', $parameters);
+    }
+
+    public function updateCard(array $parameters = array())
+    {
+        throw new \BadMethodCallException('Not supported');
+    }
+
+    public function supportsUpdateCard()
+    {
+        return false;
+    }
+
+    public function deleteCard(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\NestPay\Message\DeleteCardRequest', $parameters);
+    }
+
+    public function completeAuthorize(array $parameters = array())
+    {
+        throw new \BadMethodCallException('Not supported');
+    }
+
+    public function supportsCompleteAuthorize()
+    {
+        return false;
+    }
+
+    public function completePurchase()
+    {
+        throw new \BadMethodCallException('Not supported');
+    }
+
+    public function supportsCompletePurchase()
+    {
+        return false;
+    }
+
+
     public function getBank()
     {
         return $this->getParameter('bank');
@@ -155,5 +196,15 @@ class Gateway extends AbstractGateway
     public function setSettlement($value)
     {
         return $this->setParameter('settlement', $value);
+    }
+
+    public function getSafeKey()
+    {
+        return $this->getParameter('safekey');
+    }
+
+    public function setSafeKey($value)
+    {
+        return $this->setParameter('safekey', $value);
     }
 }

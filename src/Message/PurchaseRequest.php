@@ -98,6 +98,9 @@ class PurchaseRequest extends AbstractRequest
         
         // Each array element
         foreach ($data as $id => $value) {
+            if ($id == 'Extra') {
+                continue;
+            }
             $root->appendChild($document->createElement($id, $value));
         }
         
@@ -161,7 +164,15 @@ class PurchaseRequest extends AbstractRequest
             $extra->appendChild($document->createElement('ORDERSTATUS', 'QUERY'));
             $root->appendChild($extra);
         }
-        
+
+        // Extra
+        if (isset($data['Extra']) && is_array($data['Extra'])) {
+            foreach ($data['Extra'] as $key => $value) {
+                $extra->appendChild($document->createElement($key, $value));
+                $root->appendChild($extra);
+            }
+        }
+
         if (! empty($dataBill)) {
             $billTo = $document->createElement('BillTo');
             foreach ($dataBill as $id => $value) {

@@ -1,13 +1,11 @@
 <?php
 namespace Omnipay\NestPay;
 
-use Omnipay\Common\AbstractGateway;
-
 /**
  * NestPay Pay Hosting Gateway
  *
  * @author Burak USGURLU <burak@uskur.com.tr>
- *        
+ *
  */
 class PayHostingGateway extends PostGateway
 {
