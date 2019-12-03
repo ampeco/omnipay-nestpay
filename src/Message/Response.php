@@ -77,6 +77,10 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     {
         return $this->isSuccessful() ? $this->data["TransId"] : '';
     }
+    public function getTransactionId()
+    {
+        return $this->isSuccessful() ? $this->data["TransId"] : '';
+    }
 
     public function getMerchantSafeKey(){
         return (string)$this->data['Extra']->MERCHANTSAFEKEY;

@@ -14,7 +14,7 @@ class VoidRequest extends PurchaseRequest
     public function getData()
     {
         $data['Type'] = 'Void';
-        $data['OrderId'] = $this->getTransactionId();
+        $data['TransId'] = $this->getTransactionId();
         
         return $data;
     }
