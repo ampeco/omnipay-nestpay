@@ -14,7 +14,6 @@ class CreditRequest extends PurchaseRequest
     public function getData()
     {
         $this->validate('amount');
-        $currency = $this->getCurrency();
         
         $data['Type'] = 'Credit';
         $data['OrderId'] = $this->getTransactionId();
