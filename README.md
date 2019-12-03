@@ -20,7 +20,7 @@ Supports the API gateway as well as the HTTP Post Gateway methods (3d_pay_hostin
 
 ## Installation
 
-    composer require ampeco/omnipay-nestpay:~3.0
+    composer require ampeco/omnipay-nestpay:v3.x-dev
 
 ## Basic Usage
 
@@ -50,7 +50,7 @@ Gateway Methods
 * settle($options) - settlement query processed transaction
 * status($options) - returns status message of the transaction
 * createCard($options) - save a credit card using Merchant Safe
-* deleteCard($options) - save a credit card using Merchant Safe
+* deleteCard($options) - disable a saved credit card using Merchant Safe
 
 
 For PostGateway
@@ -218,7 +218,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "uskur/omnipay-nestpay": "~3.0"
+        "ampeco/omnipay-nestpay": "v3.x-dev"
     }
 }
 ```
