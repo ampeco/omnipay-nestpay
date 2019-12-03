@@ -279,4 +279,13 @@ class PurchaseRequest extends AbstractRequest
         return $this->setParameter('status', $value);
     }
 
+    public function getSafeKey()
+    {
+        return $this->getParameter('safekey');
+    }
+
+    public function setSafeKey($value)
+    {
+        return $this->setParameter('safekey', $value);
+    }
 }
