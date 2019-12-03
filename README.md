@@ -20,7 +20,7 @@ Supports the API gateway as well as the HTTP Post Gateway methods (3d_pay_hostin
 
 ## Installation
 
-    composer require ampeco/omnipay-nestpay:v3.x-dev
+    composer require ampeco/omnipay-nestpay:~3.1
 
 ## Basic Usage
 
@@ -218,7 +218,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "ampeco/omnipay-nestpay": "v3.x-dev"
+        "ampeco/omnipay-nestpay": "~3.1"
     }
 }
 ```
