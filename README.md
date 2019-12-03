@@ -2,10 +2,10 @@
 
 **NestPay (EST) (İş Bankası, Akbank, Finansbank, Denizbank, Kuveytturk, Halkbank, Anadolubank, ING Bank, Citibank, Cardplus, Ziraat Bankası sanal pos) gateway for Omnipay payment processing library**
 
-[![Latest Stable Version](https://poser.pugx.org/uskur/omnipay-nestpay/v/stable)](https://packagist.org/packages/uskur/omnipay-nestpay) 
-[![Total Downloads](https://poser.pugx.org/uskur/omnipay-nestpay/downloads)](https://packagist.org/packages/uskur/omnipay-nestpay) 
-[![Latest Unstable Version](https://poser.pugx.org/uskur/omnipay-nestpay/v/unstable)](https://packagist.org/packages/uskur/omnipay-nestpay) 
-[![License](https://poser.pugx.org/uskur/omnipay-nestpay/license)](https://packagist.org/packages/uskur/omnipay-nestpay)
+[![Latest Stable Version](https://poser.pugx.org/ampeco/omnipay-nestpay/v/stable)](https://packagist.org/packages/ampeco/omnipay-nestpay) 
+[![Total Downloads](https://poser.pugx.org/ampeco/omnipay-nestpay/downloads)](https://packagist.org/packages/ampeco/omnipay-nestpay) 
+[![Latest Unstable Version](https://poser.pugx.org/ampeco/omnipay-nestpay/v/unstable)](https://packagist.org/packages/ampeco/omnipay-nestpay) 
+[![License](https://poser.pugx.org/ampeco/omnipay-nestpay/license)](https://packagist.org/packages/ampeco/omnipay-nestpay)
 
 For Omnipay v3.x
 
@@ -20,7 +20,7 @@ Supports the API gateway as well as the HTTP Post Gateway methods (3d_pay_hostin
 
 ## Installation
 
-    composer require uskur/omnipay-nestpay:~3.0
+    composer require ampeco/omnipay-nestpay:~3.0
 
 ## Basic Usage
 
@@ -49,6 +49,9 @@ Gateway Methods
 * credit($options) - money points processed transaction
 * settle($options) - settlement query processed transaction
 * status($options) - returns status message of the transaction
+* createCard($options) - save a credit card using Merchant Safe
+* deleteCard($options) - save a credit card using Merchant Safe
+
 
 For PostGateway
 
