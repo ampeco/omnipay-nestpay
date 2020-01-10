@@ -1,8 +1,6 @@
 <?php
 namespace Omnipay\NestPay;
 
-use Omnipay\Common\AbstractGateway;
-
 /**
  * NestPay Post Gateway
  *
@@ -23,17 +21,17 @@ class PostGateway extends Gateway
             'bank' => '',
             'username' => '',
             'clientId' => '',
-            'storetype' => '3d_pay_hosting',
-            'storekey' => '',
-            'password' => '',
+            'storetype'   => '3d_pay_hosting',
+            'storekey'    => '',
+            'password'    => '',
             'installment' => '',
-            'islemtipi' => 'Auth',
-            'currency' => 'TRY',
-            'testMode' => false,
-            'okUrl' => '',
-            'failUrl' => '',
+            'islemtipi'   => 'Auth',
+            'currency'    => 'TRY',
+            'testMode'    => false,
+            'okUrl'       => '',
+            'failUrl'     => '',
             'callbackurl' => '',
-            'lang' => 'tr'
+            'lang'        => 'tr'
         );
     }
 
@@ -45,6 +43,11 @@ class PostGateway extends Gateway
     public function purchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\NestPay\Message\PurchasePostRequest', $parameters);
+    }
+
+    public function createCard(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\NestPay\Message\CreateCardPostRequest', $parameters);
     }
 
     public function acceptNotification(array $parameters = array())

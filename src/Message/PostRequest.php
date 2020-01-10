@@ -1,9 +1,7 @@
 <?php
 namespace Omnipay\NestPay\Message;
 
-use DOMDocument;
 use Omnipay\Common\Message\AbstractRequest;
-use Omnipay\NestPay\ThreeDPayHostingGateway;
 
 /**
  *
@@ -24,35 +22,38 @@ class PostRequest extends AbstractRequest
 
     public function getData()
     {
-        $this->validate('card', 'transactionId');
+        $this->validate('transactionId');
         if ($this->getStoreType() == '3d_pay') {
             $this->getCard()->validate();
         }
         $data = [
-            'clientid' => $this->getClientId(),
-            'storetype' => $this->getStoreType(),
-            'islemtipi' => $this->getType(),
-            'amount' => $this->getAmount(),
-            'currency' => $this->getCurrencyNumeric(),
-            'oid' => $this->getTransactionId(),
-            'okUrl' => $this->getReturnUrl(),
-            'failUrl' => $this->getReturnUrl(),
+            'clientid'    => $this->getClientId(),
+            'storetype'   => $this->getStoreType(),
+            'islemtipi'   => $this->getType(),
+            'amount'      => $this->getAmount(),
+            'currency'    => $this->getCurrencyNumeric(),
+            'oid'         => $this->getTransactionId(),
+            'okUrl'       => $this->getReturnUrl(),
+            'failUrl'     => $this->getCancelUrl() ?: $this->getReturnUrl(),
             'callbackurl' => $this->getNotifyUrl(),
-            'rnd' => $this->getRnd(),
-            'lang' => $this->getLang(), // en, tr
-            'taksit' => $this->getInstallment(),
-            'hash' => '',
+            'rnd'         => $this->getRnd(),
+            'lang'        => $this->getLang(), // en, tr
+            'taksit'      => $this->getInstallment(),
+            'hash'        => '',
             'refreshtime' => $this->getRefreshtime()
         ];
         $plaintext = $data['clientid'] . $data['oid'] . $this->getAmount() . $data['okUrl'] . $data['failUrl'] . $data['islemtipi'] . $data['taksit'] . $data['rnd'] . $data['callbackurl'] . $this->getStoreKey();
         $data['hash'] = base64_encode(pack('H*', sha1($plaintext)));
-        
-        $data['Email'] = $this->getCard()->getEmail();
-        $data['tel'] = mb_substr($this->getCard()->getPhone(), 0, 32);
-        $data['Faturafirma'] = mb_substr("{$this->getCard()->getFirstName()} {$this->getCard()->getLastName()}", 0, 255);
-        $data['Fadres'] = mb_substr($this->getCard()->getAddress1(), 0, 255);
-        $data['Fadres2'] = mb_substr($this->getCard()->getAddress2(), 0, 255);
-        
+
+        if ($this->getCard()) {
+            $data['Email'] = $this->getCard()->getEmail();
+            $data['tel'] = mb_substr($this->getCard()->getPhone(), 0, 32);
+            $data['Faturafirma'] = mb_substr("{$this->getCard()->getFirstName()} {$this->getCard()->getLastName()}", 0,
+                255);
+            $data['Fadres'] = mb_substr($this->getCard()->getAddress1(), 0, 255);
+            $data['Fadres2'] = mb_substr($this->getCard()->getAddress2(), 0, 255);
+        }
+
         return $data;
     }
 
