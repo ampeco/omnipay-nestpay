@@ -5,7 +5,7 @@ namespace Omnipay\NestPay;
  * NestPay Post Gateway
  *
  * @author Burak USGURLU <burak@uskur.com.tr>
- *        
+ *
  */
 class PostGateway extends Gateway
 {
@@ -18,9 +18,9 @@ class PostGateway extends Gateway
     public function getDefaultParameters()
     {
         return array(
-            'bank' => '',
-            'username' => '',
-            'clientId' => '',
+            'bank'        => '',
+            'username'    => '',
+            'clientId'    => '',
             'storetype'   => '3d_pay_hosting',
             'storekey'    => '',
             'password'    => '',
@@ -83,5 +83,30 @@ class PostGateway extends Gateway
     public function setLang($value)
     {
         return $this->setParameter('lang', $value);
+    }
+
+    /**
+     * @param array $request
+     * @return bool
+     */
+    public function verify($request)
+    {
+        $params = $request['HASHPARAMS'];
+        if (!$params) {
+            return false;
+        }
+        $keys = explode(':', $params);
+        $val = [];
+        foreach ($keys as $key) {
+            $val[] = @$request[$key];
+        }
+        $str = join('', $val) . $this->getStoreKey();
+        $hash = base64_encode(pack('H*', sha1($str)));
+        if ($hash != $request['HASH']) {
+            return false;
+        }
+
+
+        return true;
     }
 }

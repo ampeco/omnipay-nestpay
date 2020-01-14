@@ -8,7 +8,7 @@ use Omnipay\Common\Message\AbstractRequest;
  * NestPay 3D Pay Hosting Post Request
  *
  * @author Burak USGURLU <burak@uskur.com.tr>
- *        
+ *
  */
 class PostRequest extends AbstractRequest
 {
@@ -16,9 +16,16 @@ class PostRequest extends AbstractRequest
     protected $endpoint = '';
 
     protected $endpoints = [
-        'test' => 'https://entegrasyon.asseco-see.com.tr/fim/est3Dgate',
+        'test'   => 'https://entegrasyon.asseco-see.com.tr/fim/est3Dgate',
         'isbank' => 'https://sanalpos.isbank.com.tr/servlet/est3Dgate'
     ];
+
+    protected function sign()
+    {
+        $args = func_get_args();
+        $plaintext = join('', $args) . $this->getStoreKey();
+        return base64_encode(pack('H*', sha1($plaintext)));
+    }
 
     public function getData()
     {
@@ -42,8 +49,8 @@ class PostRequest extends AbstractRequest
             'hash'        => '',
             'refreshtime' => $this->getRefreshtime()
         ];
-        $plaintext = $data['clientid'] . $data['oid'] . $this->getAmount() . $data['okUrl'] . $data['failUrl'] . $data['islemtipi'] . $data['taksit'] . $data['rnd'] . $data['callbackurl'] . $this->getStoreKey();
-        $data['hash'] = base64_encode(pack('H*', sha1($plaintext)));
+        $data['hash'] = $this->sign($data['clientid'], $data['oid'], $this->getAmount(), $data['okUrl'],
+            $data['failUrl'], $data['islemtipi'], $data['taksit'], $data['rnd'], $data['callbackurl']);
 
         if ($this->getCard()) {
             $data['Email'] = $this->getCard()->getEmail();

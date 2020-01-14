@@ -72,6 +72,10 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\NestPay\Message\MoneyPointsRequest', $parameters);
     }
 
+    /**
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\RequestInterface
+     */
     public function status(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\NestPay\Message\StatusRequest', $parameters);

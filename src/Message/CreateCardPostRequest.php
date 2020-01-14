@@ -16,7 +16,21 @@ class CreateCardPostRequest extends PostRequest
             $this->setType('Auth');
         }
         $data = parent::getData();
-        $data['MERCHANTSAFE'] = 'ADDCARD';
+        $data['MERCHANTSAFE'] = 'MERCHANTSAFE';
+        $data['MERCHANTSAFEAUTHTYPE'] = $this->getTestMode() ? 'NOAUTH' : '3DPAYAUTH';
+        $data['MERCHANTSAFEKEY'] = '';
+        $data['hash'] = $this->sign(
+            $data['clientid'],
+            $data['oid'],
+            $data['amount'],
+            $data['okUrl'],
+            $data['failUrl'],
+            $data['islemtipi'],
+            $data['taksit'],
+            $data['rnd'],
+            $data['MERCHANTSAFEAUTHTYPE'],
+            $data['MERCHANTSAFEKEY']
+        );
         return $data;
     }
 }
